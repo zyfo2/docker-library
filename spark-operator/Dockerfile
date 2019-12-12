@@ -22,8 +22,8 @@ RUN apk add --no-cache bash git
 ADD https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 /usr/bin/dep
 RUN chmod +x /usr/bin/dep
 
-WORKDIR .
-COPY Gopkg.toml Gopkg.lock ./
+WORKDIR ${GOPATH}/src/github.com/GoogleCloudPlatform/spark-on-k8s-operator
+COPY /data/tmp/docker-library/spark-operator/Gopkg.toml /data/tmp/docker-library/spark-operator/Gopkg.lock ./
 RUN dep ensure -vendor-only
 COPY . ./
 RUN go generate && CGO_ENABLED=0 GOOS=linux go build -o /usr/bin/spark-operator
