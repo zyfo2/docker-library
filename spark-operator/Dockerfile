@@ -24,10 +24,10 @@ RUN chmod +x /usr/bin/dep
 
 WORKDIR ${GOPATH}/src/github.com/GoogleCloudPlatform/spark-on-k8s-operator
 RUN git clone https://github.com/zyfo2/docker-library.git .
-RUN ls -l spark-operator
-COPY spark-operator/Gopkg.toml spark-operator/Gopkg.lock ./
+RUN mv spark-operator/Gopkg.toml .
+RUN mv spark-operator/Gopkg.lock .
 RUN dep ensure -vendor-only
-COPY spark-operator/* ./
+RUN mv spark-operator/* .
 RUN go generate && CGO_ENABLED=0 GOOS=linux go build -o /usr/bin/spark-operator
 
 FROM ${SPARK_IMAGE}
