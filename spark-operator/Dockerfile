@@ -23,9 +23,10 @@ ADD https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-am
 RUN chmod +x /usr/bin/dep
 
 WORKDIR ${GOPATH}/src/github.com/GoogleCloudPlatform/spark-on-k8s-operator
-COPY /data/tmp/docker-library/spark-operator/Gopkg.toml /data/tmp/docker-library/spark-operator/Gopkg.lock ./
+RUN git clone https://github.com/zyfo2/docker-library.git .
+COPY docker-library/spark-operator/Gopkg.toml docker-library/spark-operator/Gopkg.lock ./
 RUN dep ensure -vendor-only
-COPY . ./
+COPY docker-library/spark-operator/* ./
 RUN go generate && CGO_ENABLED=0 GOOS=linux go build -o /usr/bin/spark-operator
 
 FROM ${SPARK_IMAGE}
