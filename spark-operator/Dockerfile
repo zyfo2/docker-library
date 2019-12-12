@@ -24,6 +24,7 @@ RUN chmod +x /usr/bin/dep
 
 WORKDIR ${GOPATH}/src/github.com/GoogleCloudPlatform/spark-on-k8s-operator
 RUN git clone https://github.com/zyfo2/docker-library.git .
+RUN ls -l
 COPY docker-library/spark-operator/Gopkg.toml docker-library/spark-operator/Gopkg.lock ./
 RUN dep ensure -vendor-only
 COPY docker-library/spark-operator/* ./
